@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 DATA = {
@@ -10,7 +11,7 @@ DATA = {
         'макароны, г': 0.3,
         'сыр, г': 0.05,
     },
-    'buter': {
+    'butter': {
         'хлеб, ломтик': 1,
         'колбаса, ломтик': 1,
         'сыр, ломтик': 1,
@@ -18,6 +19,7 @@ DATA = {
     },
     # можете добавить свои рецепты ;)
 }
+
 
 # Напишите ваш обработчик. Используйте DATA как источник данных
 # Результат - render(request, 'calculator/index.html', context)
@@ -28,3 +30,21 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+
+def my_recipe(request, **kwargs):
+    try:
+        servings = int(request.GET.get('servings', 1))
+        if servings is not int and servings <= 0:
+            return HttpResponse('Неправильное кол-во порций')
+    except ValueError:
+        return HttpResponse('Ожидаю на ввод кол-во порций')
+    context = {}
+    for key, value in kwargs.items():
+        if value in list(DATA.keys()) and servings == 1:
+            context['recipe'] = DATA.get(value)
+            return render(request, 'calculator/index.html', context)
+        elif value in list(DATA.keys()) and servings != 1:
+            for i, j in DATA.get(value).items():
+                DATA.get(value)[i] = j*servings
+            context['recipe'] = DATA.get(value)
+            return render(request, 'calculator/index.html', context)
