@@ -44,7 +44,9 @@ def my_recipe(request, **kwargs):
             context['recipe'] = DATA.get(value)
             return render(request, 'calculator/index.html', context)
         elif value in list(DATA.keys()) and servings != 1:
-            for i, j in DATA.get(value).items():
-                DATA.get(value)[i] = j*servings
-            context['recipe'] = DATA.get(value)
+            internal_dict = DATA.get(value)
+            copy_internal_dict = internal_dict.copy()
+            for a, b in copy_internal_dict.items():
+                copy_internal_dict[a] = b * servings
+                context['recipe'] = copy_internal_dict
             return render(request, 'calculator/index.html', context)
