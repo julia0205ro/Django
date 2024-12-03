@@ -34,7 +34,7 @@ DATA = {
 def my_recipe(request, **kwargs):
     try:
         servings = int(request.GET.get('servings', 1))
-        if servings is not int and servings <= 0:
+        if servings <= 0:
             return HttpResponse('Неправильное кол-во порций')
     except ValueError:
         return HttpResponse('Ожидаю на ввод кол-во порций')
@@ -49,4 +49,7 @@ def my_recipe(request, **kwargs):
             for a, b in copy_internal_dict.items():
                 copy_internal_dict[a] = b * servings
                 context['recipe'] = copy_internal_dict
+            return render(request, 'calculator/index.html', context)
+        else:
+            context = {}
             return render(request, 'calculator/index.html', context)
