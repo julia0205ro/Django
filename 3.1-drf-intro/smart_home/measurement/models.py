@@ -14,5 +14,6 @@ class Measurement(models.Model):
     sensor_id = models.ForeignKey(Sensor, on_delete=models.CASCADE, related_name='measurements')
     measurement_temp = models.DecimalField(max_digits=3, decimal_places=1)
     measurement_datetime = models.DateTimeField(auto_now=True)
+    image = models.ImageField(blank=True, upload_to='images/')
 
     objects = models.Manager()
