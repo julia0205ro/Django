@@ -40,8 +40,7 @@ class StockSerializer(serializers.ModelSerializer):
         # в нашем случае: таблицу StockProduct
         # с помощью списка positions
         for position in positions:
-            obj = StockProduct(**position)
-            obj.stock = stock
+            obj = StockProduct(stock=stock, **position)
             obj.save()
 
         return stock

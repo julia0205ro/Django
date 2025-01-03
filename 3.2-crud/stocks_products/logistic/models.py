@@ -8,9 +8,6 @@ class Product(models.Model):
 
     objects = models.Manager()
 
-    def __str__(self):
-        return self.title
-
 
 class Stock(models.Model):
     address = models.CharField(max_length=200, unique=True)
