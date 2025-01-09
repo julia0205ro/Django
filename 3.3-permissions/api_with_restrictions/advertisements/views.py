@@ -1,7 +1,7 @@
 import pdb
 
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.viewsets import ModelViewSet
 
 from advertisements.filters import AdvertisementFilter
@@ -27,4 +27,5 @@ class AdvertisementViewSet(ModelViewSet):
             return [IsAuthenticated()]
         elif self.action in ["update", "partial_update", "destroy"]:
             return [IsAuthenticated(), IsOwnerOrReadOnly()]
+        # elif
         return super().get_permissions()
