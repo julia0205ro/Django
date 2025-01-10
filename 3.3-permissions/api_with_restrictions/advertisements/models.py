@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class AdvertisementStatusChoices(models.TextChoices):
@@ -28,5 +29,14 @@ class Advertisement(models.Model):
     updated_at = models.DateTimeField(
         auto_now=True
     )
+
+    objects = models.Manager()
+
+
+class FavAdvertisement(models.Model):
+    """Избранное объявление."""
+
+    title = models.ForeignKey(Advertisement, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     objects = models.Manager()
