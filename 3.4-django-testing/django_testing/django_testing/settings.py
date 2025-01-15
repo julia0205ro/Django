@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from configparser import ConfigParser
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,6 +75,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_testing.wsgi.application'
 
+urlsconf = 'django_testing/config.ini'
+config = ConfigParser()
+config.read(urlsconf)
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
@@ -83,6 +87,8 @@ DATABASES = {
         'NAME': 'netology_django_testing',
         'HOST': '127.0.0.1',
         'PORT': '5432',
+        'USER': config.get('mydb', 'user'),
+        'PASSWORD': config.get('mydb', 'password'),
     }
 }
 
